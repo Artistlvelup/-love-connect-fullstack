@@ -1,162 +1,506 @@
-LC
-Love Connect
-● Lagos • 1.2k online
-Discover ▶ Moments Chats ❤️ Likes 👤 Account 👑 Premium
-All • Lagos 18-25 Verified ✓ Online
+<!DOCTYPE html>
+<html lang="en">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Connect - Discover, Chat, Match</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#0F0F12;color:#fff;min-height:100vh}
+header{position:sticky;top:0;z-index:50;background:rgba(26,26,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:8px}.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#ec4899,#ef4444);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 8px;position:sticky;top:58px;background:#0F0F12;z-index:40}
+.tab{padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;border:none;cursor:pointer;background:#1E1E22;color:#fff}
+.tab.active{background:#fff;color:#000}.tab.premium{background:linear-gradient(90deg,#facc15,#f97316);color:#000;font-weight:700}
+.page{max-width:1100px;margin:0 auto;padding:16px;display:none}.page.active{display:block}
+.card-wrap{position:relative;width:100%;max-width:380px;height:560px;margin:0 auto}
+.swipe-card{position:absolute;inset:0;background:#1E1E22;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:all 0.3s}
+.swipe-card img{width:100%;height:100%;object-fit:cover}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,black 0%,rgba(0,0,0,0.2) 60%,transparent 100%)}
+.badge{position:absolute;top:16px;padding:5px 12px;border-radius:999px;font-size:11px;font-weight:700}
+.badge.online{left:16px;background:#22c55e;color:#fff}.badge.verified{right:16px;background:#3b82f6;color:#fff}
+.stamp{position:absolute;top:50%;border:4px solid;padding:4px 12px;border-radius:8px;font-weight:900;font-size:22px;opacity:0}
+.stamp.like{left:16px;transform:rotate(-15deg);border-color:#22c55e;color:#22c55e}.stamp.nope{right:16px;transform:rotate(15deg);border-color:#ef4444;color:#ef4444}
+.card-info{position:absolute;bottom:0;padding:20px;width:100%}
+.card-info h2{font-size:22px;font-weight:700}.card-info p{font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px}
+.tags{display:flex;gap:6px;margin-top:10px}.tag{padding:4px 8px;background:rgba(255,255,255,0.2);border-radius:999px;font-size:11px}
+.actions{display:flex;justify-content:space-around;align-items:center;padding:16px 0}
+.btn-round{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid rgba(255,255,255,0.1);cursor:pointer}
+.btn-round.large{width:68px;height:68px;background:linear-gradient(135deg,#ec4899,#ef4444);font-size:28px;border:none}
+.grid-2{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.grid-2{grid-template-columns:1.5fr 1fr}}
+.panel{background:#1A1A1E;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px}
+.moments{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.moment{aspect-ratio:9/16;border-radius:16px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px}
+.moment-info{position:absolute;bottom:0;width:100%;padding:10px;background:rgba(0,0,0,0.6);font-size:12px}
+.chat-layout{display:grid;grid-template-columns:1fr;gap:12px;height:680px}
+@media(min-width:800px){.chat-layout{grid-template-columns:300px 1fr}}
+.rooms{background:#1A1A1E;border-radius:16px;border:1px solid rgba(255,255,255,0.1);overflow:hidden;display:flex;flex-direction:column}
+.rooms-head{padding:14px;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.1)}
+.room{padding:12px;display:flex;gap:10px;align-items:center;cursor:pointer}.room.active{background:rgba(255,255,255,0.1);border-left:4px solid #22c55e}
+.room-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.whatsapp{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;background:#111B21}
+.wa-header{background:#202C33;padding:12px;display:flex;align-items:center;gap:10px}
+.wa-avatar{width:40px;height:40px;background:#555;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.wa-chat{flex:1;overflow-y:auto;padding:16px;background:#0B141A;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:78%;padding:10px 12px;border-radius:12px;font-size:14px;position:relative}
+.msg.other{background:#202C33;border-top-left-radius:0;align-self:flex-start}
+.msg.me{background:#005C4B;border-top-right-radius:0;align-self:flex-end}
+.msg-time{font-size:10px;color:rgba(255,255,255,0.4);float:right;margin-left:8px;margin-top:4px}
+.voice{display:flex;align-items:center;gap:10px}
+.wave{display:flex;gap:2px;align-items:center;height:24px}.bar{width:3px;background:#25D366;border-radius:10px}
+.play{width:28px;height:28px;background:#00A884;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.wa-input{background:#202C33;padding:12px;display:flex;gap:10px;align-items:center}
+.wa-input input{flex:1;background:#2A3942;border:none;border-radius:999px;padding:10px 16px;color:#fff;outline:none}
+.mic{width:40px;height:40px;background:#00A884;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.premium-grid{display:grid;grid-template-columns:1fr;gap:12px;max-width:900px;margin:0 auto}
+@media(min-width:700px){.premium-grid{grid-template-columns:1fr 1fr 1fr}}
+.price-card{background:#1A1A1E;border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.1)}
+.price-card.popular{background:linear-gradient(135deg,#facc15,#f97316);color:#000;border:2px solid #facc15;position:relative}
+.price-card.popular .btn{background:#000;color:#fff}
+.btn{width:100%;padding:10px;border-radius:999px;border:none;font-weight:700;font-size:13px;cursor:pointer;margin-top:16px}
+.btn.dark{background:#2A2A2E;color:#fff}.btn.white{background:#fff;color:#000}.btn.black{background:#000;color:#fff}
+.locked-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.locked{aspect-ratio:1;background:#2A2A2E;border-radius:12px;filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:24px;position:relative}
+.locked span{filter:none;position:absolute;font-size:20px}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo"><div class="logo-icon">LC</div><b>Love Connect</b></div>
+<div style="font-size:11px;background:rgba(34,197,94,0.2);color:#4ade80;padding:4px 10px;border-radius:999px">● Lagos • 1.2k online</div>
+</header>
 
-● ONLINE✓ VERIFIED
-LIKE
-NOPE
-Amara, 23 • 2km away
-Lagos Island • Student • Loves music, travel, good vibes ✨
+<div class="tabs">
+<button onclick="showTab('discover')" id="t-discover" class="tab active">🔥 Discover</button>
+<button onclick="showTab('moments')" id="t-moments" class="tab">▶ Moments</button>
+<button onclick="showTab('chats')" id="t-chats" class="tab">💬 Chats</button>
+<button onclick="showTab('likes')" id="t-likes" class="tab">❤️ Likes</button>
+<button onclick="showTab('account')" id="t-account" class="tab">👤 Account</button>
+<button onclick="showTab('premium')" id="t-premium" class="tab premium">👑 Premium</button>
+</div>
 
-🎵 Afrobeat✈️ Travel📚 Reading
+<!-- DISCOVER -->
+<div id="p-discover" class="page active">
+<div class="grid-2">
+<div>
+<div class="card-wrap">
+<div id="c1" class="swipe-card">
+<img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600">
+<div class="card-overlay"></div>
+<div class="badge online">● ONLINE</div><div class="badge verified">✓ VERIFIED</div>
+<div class="stamp like" id="s1-like">LIKE</div><div class="stamp nope" id="s1-nope">NOPE</div>
+<div class="card-info"><h2>Amara, 23 <span style="font-weight:400;color:rgba(255,255,255,0.7);font-size:14px">• 2km away</span></h2><p>Lagos Island • Student • Loves music, travel, good vibes ✨</p><div class="tags"><span class="tag">🎵 Afrobeat</span><span class="tag">✈️ Travel</span><span class="tag">📚 Reading</span></div></div>
+</div>
+<div id="c2" class="swipe-card" style="transform:scale(0.96);z-index:-1">
+<div class="stamp like" id="s2-like">LIKE</div><div class="stamp nope" id="s2-nope">NOPE</div>
+<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600">
+<div class="card-overlay"></div>
+<div class="card-info"><h2>Tunde, 26</h2><p>Yaba • Developer • Football & Code</p></div>
 
-Tunde, 26
-Yaba • Developer • Football & Code
+<div id="c3" class="swipe-card" style="transform:scale(0.92);z-index:-2">
+<div class="stamp like" id="s3-like">LIKE</div><div class="stamp nope" id="s3-nope">NOPE</div>
+<img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600">
+<div class="card-overlay"></div>
+<div class="badge online">● ONLINE</div><div class="badge verified">✓ VERIFIED</div>
+<div class="card-info"><h2>Blessing, 22 <span style="font-weight:400;color:rgba(255,255,255,0.7);font-size:14px">• 1km away</span></h2><p>Yaba • Model • Dance, Music, Vibes 💃</p><div class="tags"><span class="tag">💃 Dance</span><span class="tag">🎵 Music</span></div></div>
+</div>
 
-Quick Actions
-✕ ⭐ ❤️ ⚡
-Swipe right to like, left to pass • Mutual like = Match!
+</div>
+</div>
+<div class="actions">
+<button onclick="swipe('left')" class="btn-round" style="background:#2A2A2E">✕</button>
+<button class="btn-round" style="background:rgba(59,130,246,0.2)">⭐</button>
+<button onclick="swipe('right')" class="btn-round large">❤️</button>
+<button class="btn-round" style="background:rgba(168,85,247,0.2)">⚡</button>
+</div>
+<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.5)">Swipe right to like, left to pass • Mutual like = Match!</p>
+</div>
+<div>
+<div class="panel">
+<h3 style="margin-bottom:12px">Quick Actions</h3>
+<p style="font-size:12px;color:rgba(255,255,255,0.6);background:rgba(236,72,153,0.1);padding:10px;border-radius:10px;border:1px solid rgba(236,72,153,0.2)">💡 Your likes and matches will show here once backend is connected to MongoDB. Currently showing demo profiles.</p>
+<div style="margin-top:16px;padding:12px;background:#2A2A2E;border-radius:12px">
+<p style="font-size:12px;font-weight:700">🔥 Lagos Singles Trending</p><p style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px">245 online now • Most active: 9PM - 12AM</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-💡 Your likes and matches will show here once backend is connected to MongoDB. Currently showing demo profiles.
+<!-- MOMENTS -->
+<div id="p-moments" class="page">
+<div class="moments">
+<div class="moment" style="background:linear-gradient(135deg,#a855f7,#ec4899)">🎥<div class="moment-info"><b>Blessing • 22</b><br>Just vibing in Lekki 😍 #Lagos</div></div>
+<div class="moment" style="background:linear-gradient(135deg,#f59e0b,#f97316)">🔥<div class="moment-info"><b>Sponsored</b><br>Promote your profile - 7d ₦10k / 30d ₦25k<br><button class="btn white" style="margin-top:8px;padding:6px">Boost Now</button></div></div>
+<div class="moment" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">💃<div class="moment-info"><b>Chioma • 24</b><br>Dance challenge!</div></div>
+</div>
+</div>
 
-🎥
-Blessing • 22
+<!-- CHATS -->
+<div id="p-chats" class="page">
+<div class="chat-layout">
+<div class="rooms">
+<div class="rooms-head">Chat Rooms</div>
+<div style="flex:1;overflow:auto">
+<div class="room active"><div class="room-icon" style="background:#22c55e">🇳🇬</div><div><p style="font-size:13px;font-weight:700">Lagos Singles</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">245 online</p></div></div>
+<div class="room"><div class="room-icon" style="background:#3b82f6">🏙️</div><div><p style="font-size:13px;font-weight:700">Abuja Connect</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">89 online</p></div></div>
+<div class="room"><div class="room-icon" style="background:#a855f7">🎓</div><div><p style="font-size:13px;font-weight:700">Student Vibes</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">156 online</p></div></div>
+</div>
+<div style="padding:12px;border-top:1px solid rgba(255,255,255,0.1)">
+<p style="font-size:11px;font-weight:700;margin-bottom:8px">Private Chats (Paywalled)</p>
+<div style="display:flex;gap:8px;align-items:center;padding:8px;background:#2A2A2E;border-radius:10px"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100" style="width:32px;height:32px;border-radius:50%"><div><p style="font-size:11px;font-weight:700">Amara</p><p style="font-size:10px;color:rgba(255,255,255,0.5)">Matched • Need Premium</p></div><span style="margin-left:auto;font-size:9px;background:#facc15;color:#000;padding:2px 6px;border-radius:999px">LOCKED</span></div>
+</div>
+</div>
+<div class="whatsapp">
+<div class="wa-header"><div class="wa-avatar">👤</div><div><p style="font-size:13px;font-weight:700">Small Tunde Bread</p><p style="font-size:11px;color:#25D366">online</p></div><div style="margin-left:auto;display:flex;gap:14px;color:rgba(255,255,255,0.8)"><span onclick="startVideoCall()" style="cursor:pointer;font-size:18px" title="Video call">📹</span><span onclick="startAudioCall()" style="cursor:pointer;font-size:18px" title="Voice call">📞</span><span style="cursor:pointer">⋮</span></div></div>
+<div class="wa-chat">
+<div style="text-align:center"><span style="background:#182533;font-size:11px;padding:4px 10px;border-radius:8px;color:rgba(255,255,255,0.6)">TODAY</span></div>
+<div class="msg other">Good morning brr <span class="msg-time">09:12 AM ✓✓</span></div>
+<div class="msg other"><div class="voice"><div class="play">▶</div><div class="wave"><div class="bar" style="height:8px"></div><div class="bar" style="height:14px"></div><div class="bar" style="height:6px"></div><div class="bar" style="height:18px"></div><div class="bar" style="height:10px"></div></div><div style="font-size:11px">0:03<br><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#00A884;border-radius:50%;display:inline-block"></span><span style="width:24px;height:3px;background:#00A884;border-radius:3px;display:inline-block"></span></span></div></div></div>
+<div class="msg me">Brr <span class="msg-time">09:13 AM ✓✓</span></div>
+<div class="msg me">I just Dey home now <span class="msg-time">09:14 AM ✓✓</span></div>
+<div class="msg me"><div class="voice"><div class="play" style="background:rgba(255,255,255,0.2)">▶</div><div class="wave"><div class="bar" style="height:12px;background:#fff"></div><div class="bar" style="height:6px;background:#fff"></div><div class="bar" style="height:20px;background:#fff"></div><div class="bar" style="height:10px;background:#fff"></div></div><span style="font-size:11px">0:20</span></div></div>
+<div class="msg other">Kk sir <span class="msg-time">09:15 AM ✓✓</span></div>
+<div class="msg other"><div class="voice"><div class="play">▶</div><div class="wave"><div class="bar" style="height:10px"></div><div class="bar" style="height:18px"></div><div class="bar" style="height:8px"></div></div><span style="font-size:11px">0:10</span></div></div>
+</div>
+<div class="wa-input">
+<span style="font-size:20px;cursor:pointer">😊</span>
+<span style="font-size:18px;cursor:pointer">📎</span>
+<input id="waText" placeholder="Type a message" oninput="handleTyping(this)" onkeypress="if(event.key==='Enter') sendMsg()">
+<div id="waAction" class="mic" onclick="handleAction()">🎤</div>
+</div>
+</div>
+</div>
+</div>
 
-Just vibing in Lekki 😍 #Lagos
+<!-- LIKES -->
+<div id="p-likes" class="page">
+<div class="grid-2">
+<div class="panel"><h3>❤️ Who Liked You (12)</h3><div class="locked-grid" style="margin-top:12px"><div class="locked">🔒</div><div class="locked">🔒</div><div class="locked">🔒</div><div class="locked">🔒</div><div class="locked">🔒</div><div class="locked">🔒</div></div><button onclick="showTab('premium')" class="btn" style="background:linear-gradient(90deg,#facc15,#f97316);color:#000;margin-top:16px">Unlock with Premium — ₦2,000/mo</button></div>
+<div class="panel"><h3>💘 Your Matches (3)</h3><div style="margin-top:12px;display:flex;gap:10px;align-items:center;padding:10px;background:#2A2A2E;border-radius:12px"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100" style="width:48px;height:48px;border-radius:50%"><div><p style="font-size:13px;font-weight:700">Amara • 23</p><p style="font-size:11px;color:#22c55e">You both liked each other!</p></div><button onclick="showTab('chats')" style="margin-left:auto;background:#00A884;border:none;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;cursor:pointer">Chat</button></div></div>
+</div>
+</div>
 
-🔥
-Sponsored
+<!-- ACCOUNT -->
+<div id="p-account" class="page">
+<div style="max-width:500px;margin:0 auto">
+<div class="panel"><h2 style="margin-bottom:16px">Account & Verification</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:#2A2A2E;border-radius:12px"><div style="display:flex;gap:10px;align-items:center"><div style="width:36px;height:36px;background:#3b82f6;border-radius:50%;display:flex;align-items:center;justify-content:center">📧</div><div><p style="font-size:13px;font-weight:700">Email Verification</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">Verify your email</p></div></div><span style="color:#22c55e;font-size:12px">✓ Done</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:#2A2A2E;border-radius:12px"><div style="display:flex;gap:10px;align-items:center"><div style="width:36px;height:36px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center">📱</div><div><p style="font-size:13px;font-weight:700">Phone OTP</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">Termii/SMSLive - Demo OTP: 482917</p></div></div><button class="btn white" style="width:auto;padding:6px 14px;margin:0">Verify</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:#2A2A2E;border-radius:12px"><div style="display:flex;gap:10px;align-items:center"><div style="width:36px;height:36px;background:#a855f7;border-radius:50%;display:flex;align-items:center;justify-content:center">📸</div><div><p style="font-size:13px;font-weight:700">Photo Verification</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">Hand on cheek pose • Face match >90%</p></div></div><button class="btn white" style="width:auto;padding:6px 14px;margin:0">Start</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:#2A2A2E;border-radius:12px"><div style="display:flex;gap:10px;align-items:center"><div style="width:36px;height:36px;background:#ec4899;border-radius:50%;display:flex;align-items:center;justify-content:center">🎥</div><div><p style="font-size:13px;font-weight:700">Video Intro (30s)</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">Record short intro</p></div></div><button class="btn white" style="width:auto;padding:6px 14px;margin:0">Record</button></div>
+</div>
+<div style="margin-top:24px;padding:12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px"><p style="font-size:13px;font-weight:700;color:#f87171">Danger Zone</p><button style="margin-top:8px;font-size:11px;color:#f87171;background:none;border:none;text-decoration:underline">Delete Account</button><button style="margin-left:12px;font-size:11px;color:rgba(255,255,255,0.5);background:none;border:none;text-decoration:underline">Privacy Policy</button></div>
+</div>
+</div>
+</div>
 
-Promote your profile - 7 days ₦10k, 30 days ₦25k
+<!-- PREMIUM -->
+<div id="p-premium" class="page">
+<h2 style="text-align:center;font-size:22px;font-weight:700">Unlock Love Connect Premium 👑</h2><p style="text-align:center;color:rgba(255,255,255,0.6);font-size:13px;margin:8px 0 20px">Chat without limits, see who liked you, boost your profile</p>
+<div class="premium-grid">
+<div class="price-card"><h3>Free</h3><p style="font-size:28px;font-weight:700;margin-top:8px">₦0</p><ul style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.7);list-style:none;line-height:22px"><li>✓ 10 swipes per day</li><li>✓ Join chat rooms</li><li>✗ No private chats</li><li>✗ Blurred likes</li></ul><button class="btn dark">Current Plan</button></div>
+<div class="price-card popular"><div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#000;color:#fff;font-size:10px;padding:4px 10px;border-radius:999px;font-weight:700">MOST POPULAR</div><h3>Monthly</h3><p style="font-size:28px;font-weight:700;margin-top:8px">₦2,000</p><p style="font-size:11px;opacity:0.7">per month</p><ul style="margin-top:12px;font-size:12px;list-style:none;line-height:22px;font-weight:500"><li>✓ Unlimited swipes</li><li>✓ Private messages + voice notes</li><li>✓ See who liked you</li><li>✓ 5 Super Likes daily</li></ul><button onclick="alert('Paystack: ₦2,000 (200000 kobo) - Connect PAYSTACK_SECRET in backend to enable real payment')" class="btn black">Pay with Paystack</button></div>
+<div class="price-card"><h3>3 Months</h3><p style="font-size:28px;font-weight:700;margin-top:8px">₦5,000</p><p style="font-size:11px;color:rgba(255,255,255,0.5)">Save 17%</p><ul style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.7);list-style:none;line-height:22px"><li>✓ Everything in Monthly</li><li>✓ Profile Boost 3x</li><li>✓ Priority support</li></ul><button onclick="alert('Paystack: ₦5,000 (500000 kobo)')" class="btn white">Pay ₦5k</button></div>
+</div>
+<div class="panel" style="max-width:900px;margin:12px auto 0;display:flex;justify-content:space-between;align-items:center"><div><h3>Yearly • Best Value</h3><p style="font-size:20px;font-weight:700">₦15,000 <span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.5);text-decoration:line-through">₦24,000</span></p></div><button onclick="alert('Paystack: ₦15,000 (1500000 kobo)')" class="btn white" style="width:auto;padding:8px 24px">Pay ₦15k</button></div>
+<p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.4);margin-top:16px">Ad slots: Moments Sponsored 7 days ₦10k / 30 days ₦25k • Secure payment by Paystack • Cancel anytime</p>
+</div>
 
-Boost Now
-💃
-Chioma • 24
+<script>
+let cur=1;
+let totalCards=3;
+function showTab(n){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ document.getElementById('p-'+n).classList.add('active');
+ document.getElementById('t-'+n).classList.add('active');
+ if(n==='premium') document.getElementById('t-'+n).classList.add('premium');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function swipe(dir){
+ const card=document.getElementById('c'+cur);
+ if(!card){showEnd();return}
+ const likeEl=document.getElementById('s'+cur+'-like');
+ const nopeEl=document.getElementById('s'+cur+'-nope');
+ if(dir==='right'){if(likeEl) likeEl.style.opacity='1';card.style.transform='translateX(500px) rotate(25deg)';}
+ else{if(nopeEl) nopeEl.style.opacity='1';card.style.transform='translateX(-500px) rotate(-25deg)';}
+ card.style.opacity='0';
+ setTimeout(()=>{
+   card.style.display='none';
+   cur++;
+   if(cur<=totalCards){
+     const next=document.getElementById('c'+cur);
+     if(next){next.style.transform='scale(1)';next.style.zIndex='2';next.style.opacity='1';}
+   } else { showEnd(); }
+ },350);
+}
+function showEnd(){
+ document.body.insertAdjacentHTML('beforeend','<div id="end-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px"><div style="background:#1A1A1E;padding:28px;border-radius:20px;text-align:center;max-width:320px;border:1px solid rgba(255,255,255,0.1)"><p style="font-size:20px;font-weight:700">You\'ve finished this round! 🎉</p><p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px">3 new people liked you while you were swiping. Check Likes tab!</p><div style="display:flex;gap:10px;margin-top:16px"><button onclick="document.getElementById(\'end-modal\').remove();cur=1;location.reload()" style="flex:1;background:#fff;color:#000;border:none;padding:10px;border-radius:999px;font-weight:700;cursor:pointer">Reload</button><button onclick="showTab(\'likes\');document.getElementById(\'end-modal\').remove()" style="flex:1;background:linear-gradient(90deg,#facc15,#f97316);color:#000;border:none;padding:10px;border-radius:999px;font-weight:700;cursor:pointer">See Likes ❤️</button></div></div></div>');
+}
+// Touch swipe with drag
+let startX=0, startY=0, isDragging=false, currentEl=null;
+function getCard(){return document.getElementById('c'+cur);}
+document.addEventListener('touchstart',e=>{
+ const card=getCard();
+ if(!card) return;
+ if(e.target.closest('.tabs') || e.target.closest('header') || e.target.closest('.wa-chat') || e.target.closest('.rooms')) return;
+ startX=e.touches[0].clientX; startY=e.touches[0].clientY; isDragging=true; currentEl=card; currentEl.style.transition='none';
+},{passive:true});
+document.addEventListener('touchmove',e=>{
+ if(!isDragging || !currentEl) return;
+ const dx=e.touches[0].clientX-startX;
+ const dy=e.touches[0].clientY-startY;
+ if(Math.abs(dy)>Math.abs(dx)) return; // vertical scroll
+ e.preventDefault();
+ const rotate=dx*0.08;
+ currentEl.style.transform=`translateX(${dx}px) rotate(${rotate}deg)`;
+ const likeEl=document.getElementById('s'+cur+'-like');
+ const nopeEl=document.getElementById('s'+cur+'-nope');
+ if(likeEl) likeEl.style.opacity=dx>40?Math.min(dx/100,1):0;
+ if(nopeEl) nopeEl.style.opacity=dx<-40?Math.min(-dx/100,1):0;
+},{passive:false});
+document.addEventListener('touchend',e=>{
+ if(!isDragging || !currentEl) return;
+ isDragging=false;
+ currentEl.style.transition='all 0.3s';
+ const dx=e.changedTouches[0].clientX-startX;
+ if(Math.abs(dx)>100){
+   swipe(dx>0?'right':'left');
+ } else {
+   currentEl.style.transform='translateX(0) rotate(0)';
+   const likeEl=document.getElementById('s'+cur+'-like');
+   const nopeEl=document.getElementById('s'+cur+'-nope');
+   if(likeEl) likeEl.style.opacity='0';
+   if(nopeEl) nopeEl.style.opacity='0';
+ }
+ currentEl=null;
+});
+// Mouse drag for desktop testing
+document.addEventListener('mousedown',e=>{
+ const card=getCard(); if(!card) return;
+ if(e.target.closest('.btn-round') || e.target.closest('.tabs')) return;
+ startX=e.clientX; isDragging=true; currentEl=card; currentEl.style.transition='none';
+});
+document.addEventListener('mousemove',e=>{
+ if(!isDragging || !currentEl) return;
+ const dx=e.clientX-startX;
+ currentEl.style.transform=`translateX(${dx}px) rotate(${dx*0.08}deg)`;
+});
+document.addEventListener('mouseup',e=>{
+ if(!isDragging || !currentEl) return;
+ isDragging=false; currentEl.style.transition='all 0.3s';
+ const dx=e.clientX-startX;
+ if(Math.abs(dx)>100) swipe(dx>0?'right':'left');
+ else currentEl.style.transform='translateX(0) rotate(0)';
+ currentEl=null;
+});
 
-Dance challenge!
+function handleTyping(el){
+ const btn=document.getElementById('waAction');
+ if(el.value.trim().length>0){
+   btn.innerHTML='➤'; btn.style.background='#00A884'; btn.setAttribute('data-mode','send');
+ } else {
+   btn.innerHTML='🎤'; btn.style.background='#00A884'; btn.setAttribute('data-mode','mic');
+ }
+}
+function handleAction(){
+ const input=document.getElementById('waText');
+ if(input.value.trim().length>0){ sendMsg(); } else { startVoice(); }
+}
+function sendMsg(){
+ const input=document.getElementById('waText');
+ const text=input.value.trim();
+ if(!text) return;
+ const chat=document.querySelector('.wa-chat');
+ const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+ const msgDiv=document.createElement('div');
+ msgDiv.className='msg me';
+ msgDiv.innerHTML=`${escapeHtml(text)} <span class="msg-time">${time} ✓✓</span>`;
+ chat.appendChild(msgDiv);
+ input.value=''; handleTyping(input);
+ chat.scrollTop=chat.scrollHeight;
+ // Auto reply demo
+ setTimeout(()=>{
+   const replies=["Lol 😂","How far na","I dey house o","Kk, make we link up?","You funny 😅"];
+   const r=replies[Math.floor(Math.random()*replies.length)];
+   const replyDiv=document.createElement('div');
+   replyDiv.className='msg other';
+   replyDiv.innerHTML=`${r} <span class="msg-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ✓✓</span>`;
+   chat.appendChild(replyDiv);
+   chat.scrollTop=chat.scrollHeight;
+ },1200);
+}
 
-Chat Rooms
-🇳🇬
-Lagos Singles
+let localStream=null;
+let isMuted=false;
+let isCamOff=false;
+let isSpeaker=false;
+let callTimer=null;
+let callSeconds=0;
 
-245 online
+async function startVideoCall(){
+ const modal=document.getElementById('videoCallModal');
+ modal.style.display='flex';
+ document.getElementById('videoStatus').textContent='Requesting camera...';
+ try{
+   localStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:true});
+   document.getElementById('localVideo').srcObject=localStream;
+   document.getElementById('videoPlaceholder').style.display='none';
+   document.getElementById('videoStatus').textContent='Ringing...';
+   // Simulate remote after 2 sec
+   setTimeout(()=>{
+     document.getElementById('videoStatus').textContent='Connected • 00:00';
+     startTimer('videoStatus');
+     // For demo, show same stream as remote (mirror) - real app would use WebRTC peer
+     document.getElementById('remoteVideo').srcObject=localStream;
+   },2000);
+ }catch(e){
+   alert('Camera permission denied. Please allow camera in browser settings. Error: '+e.message);
+   document.getElementById('videoStatus').textContent='Camera blocked - enable permission';
+ }
+}
+async function startAudioCall(){
+ const modal=document.getElementById('audioCallModal');
+ modal.style.display='flex';
+ document.getElementById('audioStatus').textContent='Calling...';
+ try{
+   localStream=await navigator.mediaDevices.getUserMedia({audio:true});
+   setTimeout(()=>{
+     document.getElementById('audioStatus').textContent='Connected • 00:00';
+     startTimer('audioStatus');
+   },1500);
+ }catch(e){
+   alert('Mic permission denied. Allow microphone. Error: '+e.message);
+   document.getElementById('audioStatus').textContent='Mic blocked - enable permission';
+ }
+}
+function endCall(){
+ document.getElementById('videoCallModal').style.display='none';
+ document.getElementById('audioCallModal').style.display='none';
+ if(localStream){localStream.getTracks().forEach(t=>t.stop()); localStream=null;}
+ if(callTimer){clearInterval(callTimer); callTimer=null; callSeconds=0;}
+ isMuted=false; isCamOff=false;
+ document.getElementById('remoteVideo').srcObject=null;
+ document.getElementById('localVideo').srcObject=null;
+ document.getElementById('videoPlaceholder').style.display='flex';
+}
+function startTimer(statusId){
+ callSeconds=0;
+ if(callTimer) clearInterval(callTimer);
+ callTimer=setInterval(()=>{
+   callSeconds++;
+   const m=String(Math.floor(callSeconds/60)).padStart(2,'0');
+   const s=String(callSeconds%60).padStart(2,'0');
+   const el=document.getElementById(statusId);
+   if(el) el.textContent=`Connected • ${m}:${s}`;
+ },1000);
+}
+function toggleMute(){
+ if(!localStream) return;
+ isMuted=!isMuted;
+ localStream.getAudioTracks().forEach(t=>t.enabled=!isMuted);
+ document.getElementById('muteBtn').style.background=isMuted?'#ef4444':'rgba(255,255,255,0.15)';
+ document.getElementById('muteBtn').innerHTML=isMuted?'🔇':'🎤';
+}
+function toggleMuteAudio(){
+ if(!localStream) return;
+ isMuted=!isMuted;
+ localStream.getAudioTracks().forEach(t=>t.enabled=!isMuted);
+ document.getElementById('muteAudioBtn').style.background=isMuted?'#ef4444':'rgba(255,255,255,0.15)';
+ document.getElementById('muteAudioBtn').innerHTML=isMuted?'🔇':'🎤';
+}
+function toggleCamera(){
+ if(!localStream) return;
+ isCamOff=!isCamOff;
+ localStream.getVideoTracks().forEach(t=>t.enabled=!isCamOff);
+ document.getElementById('camBtn').style.background=isCamOff?'#ef4444':'rgba(255,255,255,0.15)';
+ document.getElementById('camBtn').innerHTML=isCamOff?'🚫':'📹';
+}
+function toggleSpeaker(){
+ isSpeaker=!isSpeaker;
+ document.getElementById('speakerBtn').style.background=isSpeaker?'#25D366':'rgba(255,255,255,0.15)';
+}
 
-🏙️
-Abuja Connect
+function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+let isRecording=false;
+function startVoice(){
+ const btn=document.getElementById('waAction');
+ if(!isRecording){
+   isRecording=true; btn.innerHTML='⏹️'; btn.style.background='#ef4444';
+   btn.style.animation='pulse 1s infinite';
+   // Simulate recording for 2 sec then create voice note
+   setTimeout(()=>{
+     if(isRecording){
+       const chat=document.querySelector('.wa-chat');
+       const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+       const voiceDiv=document.createElement('div');
+       voiceDiv.className='msg me';
+       voiceDiv.innerHTML=`<div class="voice"><div class="play">▶</div><div class="wave"><div class="bar" style="height:12px;background:#fff"></div><div class="bar" style="height:6px;background:#fff"></div><div class="bar" style="height:18px;background:#fff"></div><div class="bar" style="height:10px;background:#fff"></div></div><span style="font-size:11px">0:${Math.floor(Math.random()*20+5).toString().padStart(2,'0')}</span></div> <span class="msg-time">${time} ✓✓</span>`;
+       chat.appendChild(voiceDiv); chat.scrollTop=chat.scrollHeight;
+       isRecording=false; btn.innerHTML='🎤'; btn.style.background='#00A884'; btn.style.animation='none';
+     }
+   },2000);
+ } else {
+   isRecording=false; btn.innerHTML='🎤'; btn.style.background='#00A884'; btn.style.animation='none';
+ }
+}
 
-89 online
+</script>
 
-🎓
-Student Vibes
+<!-- VIDEO CALL MODAL -->
+<div id="videoCallModal" style="display:none;position:fixed;inset:0;background:#000;z-index:10000;flex-direction:column">
+<div style="padding:12px;background:#202C33;display:flex;align-items:center;gap:10px"><button onclick="endCall()" style="background:rgba(255,255,255,0.2);border:none;width:36px;height:36px;border-radius:50%;color:#fff;font-size:18px;cursor:pointer">✕</button><div><p style="font-weight:700;font-size:14px">Small Tunde Bread</p><p id="videoStatus" style="font-size:11px;color:#25D366">Connecting...</p></div></div>
+<div style="flex:1;position:relative;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<video id="remoteVideo" autoplay playsinline style="width:100%;height:100%;object-fit:cover;background:#111"></video>
+<video id="localVideo" autoplay playsinline muted style="position:absolute;bottom:100px;right:20px;width:110px;height:150px;border-radius:12px;border:2px solid rgba(255,255,255,0.3);object-fit:cover;background:#222"></video>
+<div id="videoPlaceholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff"><div style="width:80px;height:80px;background:#333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px">👤</div><p style="margin-top:12px;font-size:14px">Waiting for answer...</p></div>
+</div>
+<div style="padding:20px;background:#202C33;display:flex;justify-content:center;gap:20px">
+<button onclick="toggleMute()" id="muteBtn" style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;cursor:pointer">🎤</button>
+<button onclick="endCall()" style="width:64px;height:64px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:24px;cursor:pointer">📞</button>
+<button onclick="toggleCamera()" id="camBtn" style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;cursor:pointer">📹</button>
+</div>
+</div>
 
-156 online
+<!-- AUDIO CALL MODAL -->
+<div id="audioCallModal" style="display:none;position:fixed;inset:0;background:linear-gradient(180deg,#1a1a1e,#0F0F12);z-index:10000;flex-direction:column;align-items:center;justify-content:space-between;padding:40px 20px">
+<div style="text-align:center;margin-top:60px">
+<div style="width:100px;height:100px;background:#333;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:48px">👤</div>
+<h2 style="margin-top:20px;font-size:22px;font-weight:700">Small Tunde Bread</h2>
+<p id="audioStatus" style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:6px">Calling...</p>
+<div style="margin-top:20px;display:flex;gap:4px;justify-content:center"><div class="bar" style="height:6px;background:#25D366;width:3px;border-radius:3px;animation:wave 0.8s infinite"></div><div class="bar" style="height:12px;background:#25D366;width:3px;border-radius:3px;animation:wave 1s infinite"></div><div class="bar" style="height:8px;background:#25D366;width:3px;border-radius:3px;animation:wave 0.9s infinite"></div></div>
+</div>
+<div style="display:flex;gap:20px;margin-bottom:40px">
+<button onclick="toggleMuteAudio()" id="muteAudioBtn" style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;cursor:pointer">🎤</button>
+<button onclick="endCall()" style="width:64px;height:64px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:24px;cursor:pointer">📞</button>
+<button onclick="toggleSpeaker()" id="speakerBtn" style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;cursor:pointer">🔊</button>
+</div>
+</div>
 
-Private Chats (Paywalled)
-
-
-Amara
-
-Matched • Need Premium to chat
-
-LOCKED
-Small Tunde Bread
-
-online
-
-TODAY
-Good morning brr
-
-09:12 AM ✓✓
-0:03
-
-Brr
-
-09:13 AM ✓✓
-I just Dey home now
-
-09:14 AM ✓✓
-0:20
-Kk sir
-
-09:15 AM ✓✓
-0:10
-Type a message
-
-❤️ Who Liked You (12)
-🔒
-🔒
-🔒
-Unlock with Premium — ₦2,000/mo
-💘 Your Matches (3)
-
-Amara • 23
-
-You both liked each other!
-
-Chat
-Account & Verification
-📧
-Email Verification
-
-Verify your email
-
-✓ Done
-📱
-Phone OTP
-
-Termii/SMSLive - Demo OTP: 482917
-
-Verify
-📸
-Photo Verification
-
-Hand on cheek pose • Face match >90%
-
-Start
-🎥
-Video Intro (30s)
-
-Record short intro
-
-Record
-Danger Zone
-
-Delete AccountPrivacy Policy
-Unlock Love Connect Premium 👑
-Chat without limits, see who liked you, boost your profile
-
-Free
-₦0
-
-✓ 10 swipes per day
-✓ Join chat rooms
-✗ No private chats
-✗ Blurred likes
-Current Plan
-MOST POPULAR
-Monthly
-₦2,000
-
-per month
-
-✓ Unlimited swipes
-✓ Private messages + voice notes
-✓ See who liked you
-✓ 5 Super Likes daily
-Pay with Paystack
-3 Months
-₦5,000
-
-Save 17%
-
-✓ Everything in Monthly
-✓ Profile Boost 3x
-✓ Priority support
-Pay ₦5k
-Yearly • Best Value
-₦15,000 ₦24,000
-
-Pay ₦15k
-Ad slots: Moments Sponsored 7 days ₦10k / 30 days ₦25k • Secure payment by Paystack • Cancel anytime
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
