@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Love Connect - TikTok Tinder WhatsApp Final</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial;background:#000;color:#fff;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+header{height:52px;min-height:52px;padding:0 12px;background:#12121a;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;flex-shrink:0;position:sticky;top:0;z-index:30}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,#ff2e7f,#ff5a5f);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.online-pill{font-size:11px;color:#22c55e;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);padding:5px 10px;border-radius:999px;font-weight:600}
+.filters-tinder{height:46px;display:flex;gap:16px;align-items:center;padding:0 12px;background:#000;flex-shrink:0;overflow-x:auto;white-space:nowrap;scrollbar-width:none;border-bottom:1px solid #111}
+.filters-tinder::-webkit-scrollbar{display:none}
+.filters-tinder span{font-size:14px;color:#888;font-weight:600;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.filters-tinder span.active{background:#fff;color:#000;font-weight:700}
+.page{display:none;flex-direction:column;max-width:480px;width:100%;margin:0 auto;flex:1;min-height:0;position:relative}
+.page.active{display:flex}
+/* TINDER STYLE SWIPE - Trish 37 style */
+.tinder-stack{flex:1;position:relative;width:100%;height:calc(100vh - 52px - 46px - 66px - 70px);min-height:520px;background:#000;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.tinder-card{position:absolute;width:100%;height:100%;border-radius:0;background:#111;overflow:hidden;will-change:transform;cursor:grab;touch-action:none}
+.tinder-card img{width:100%;height:100%;object-fit:cover;display:block}
+.tinder-gradient{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 25%, transparent 50%);z-index:1}
+.tinder-top-dots{position:absolute;top:8px;left:8px;right:8px;display:flex;gap:4px;z-index:3}
+.tinder-top-dots span{flex:1;height:3px;background:rgba(255,255,255,0.3);border-radius:2px}
+.tinder-top-dots span.active{background:#fff}
+.tinder-info{position:absolute;bottom:0;left:0;right:0;padding:16px;z-index:2}
+.tinder-badge{background:#fff;color:#000;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;display:inline-block;margin-bottom:8px}
+.tinder-name{font-size:28px;font-weight:800;display:flex;align-items:center;gap:8px;line-height:1}
+.tinder-name b{width:20px;height:20px;background:#3b82f6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.tinder-meta{font-size:13px;color:rgba(255,255,255,0.8);margin-top:6px;display:flex;align-items:center;gap:6px}
+.tinder-up{position:absolute;right:16px;bottom:90px;width:36px;height:36px;background:rgba(0,0,0,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:3;font-size:16px;border:1px solid rgba(255,255,255,0.2)}
+.tinder-actions{height:70px;min-height:70px;background:#000;display:flex;justify-content:space-evenly;align-items:center;padding:0 8px;flex-shrink:0;border-top:1px solid #111}
+.t-btn{width:52px;height:52px;border-radius:50%;border:1px solid #333;background:rgba(255,255,255,0.08);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.t-btn:active{transform:scale(0.88)}
+.t-btn.rewind{width:44px;height:44px;color:#facc15;border-color:rgba(250,204,21,0.3)}
+.t-btn.nope{width:64px;height:64px;font-size:28px;color:#fff;background:rgba(255,255,255,0.1);border-color:#444}
+.t-btn.star{width:44px;height:44px;color:#3b82f6;border-color:rgba(59,130,246,0.3)}
+.t-btn.like{width:64px;height:64px;font-size:26px;background:rgba(255,255,255,0.08);color:#ff2e7f;border-color:#333}
+.t-btn.like.active{background:#ff2e7f;color:#fff;border-color:#ff2e7f;box-shadow:0 4px 20px rgba(255,46,127,0.4)}
+.t-btn.boost{width:44px;height:44px;color:#a855f7;border-color:rgba(168,85,247,0.3)}
+/* TIKTOK 9:16 STYLE MOVEMENT */
+.tiktok-container{flex:1;position:relative;width:100%;height:calc(100vh - 52px - 66px);background:#000;overflow:hidden;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none}
+.tiktok-container::-webkit-scrollbar{display:none}
+.tiktok-item{position:relative;width:100%;height:calc(100vh - 52px - 66px);min-height:600px;scroll-snap-align:start;background:#000;display:flex;justify-content:center;align-items:center;overflow:hidden;border-bottom:1px solid #111}
+.tiktok-item img,.tiktok-item video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.tiktok-right{position:absolute;right:10px;bottom:100px;display:flex;flex-direction:column;gap:18px;z-index:3;align-items:center}
+.tiktok-action{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.tiktok-action .icon{width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(6px)}
+.tiktok-action .count{font-size:12px;font-weight:600}
+.tiktok-bottom{position:absolute;bottom:0;left:0;right:60px;padding:16px;z-index:3;background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)}
+.tiktok-user{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px}
+.tiktok-desc{font-size:13px;margin-top:6px;line-height:1.3;color:rgba(255,255,255,0.9)}
+.tiktok-music{font-size:12px;margin-top:8px;display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.8)}
+.tiktok-top{position:absolute;top:12px;left:0;right:0;display:flex;justify-content:center;gap:16px;z-index:3}
+.tiktok-top span{font-size:15px;font-weight:600;color:rgba(255,255,255,0.6);padding:6px 12px;border-radius:999px}
+.tiktok-top span.active{color:#fff;font-weight:800;background:rgba(255,255,255,0.15)}
+.tiktok-campaign{position:absolute;top:60px;left:12px;right:12px;background:rgba(250,204,21,0.95);color:#000;padding:10px 14px;border-radius:12px;z-index:3;display:flex;justify-content:space-between;align-items:center}
+.tiktok-campaign button{background:#000;color:#fff;border:none;padding:6px 12px;border-radius:999px;font-weight:700;font-size:11px}
+/* WHATSAPP STYLE CHAT - Mum Anabela style */
+.wa-page{flex:1;display:flex;flex-direction:column;background:#111b21;max-height:calc(100vh - 52px - 66px);overflow:hidden}
+.wa-header{height:56px;min-height:56px;background:#202c33;padding:0 8px;display:flex;align-items:center;gap:10px;flex-shrink:0;border-bottom:1px solid #222}
+.wa-header .back{font-size:20px;color:#fff;cursor:pointer;padding:4px}
+.wa-header .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff2e7f,#a855f7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;overflow:hidden}
+.wa-header .avatar img{width:100%;height:100%;object-fit:cover}
+.wa-header .name{flex:1}
+.wa-header .name b{font-size:15px;font-weight:600;display:block}
+.wa-header .name small{font-size:11px;color:#8696a0;display:none}
+.wa-header .icons{display:flex;gap:18px;font-size:20px;color:#fff}
+.wa-chat-area{flex:1;overflow-y:auto;padding:8px 6px;background-color:#0b141a;background-image:url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');background-size:300px;background-repeat:repeat;position:relative;display:flex;flex-direction:column;gap:4px}
+.wa-date{ align-self:center;background:#182533;color:#8696a0;padding:5px 12px;border-radius:8px;font-size:11px;margin:8px 0;box-shadow:0 1px 0.5px rgba(0,0,0,0.13)}
+.wa-secure{background:#182533;color:#53bdeb;padding:10px 12px;border-radius:8px;font-size:12px;text-align:center;margin:8px 12px;line-height:1.3}
+.wa-bubble-wa{max-width:80%;padding:6px 8px 6px 8px;border-radius:8px;position:relative;font-size:14px;line-height:1.3;box-shadow:0 1px 0.5px rgba(0,0,0,0.13);word-wrap:break-word}
+.wa-bubble-wa.other{align-self:flex-start;background:#202c33;color:#e9edef;border-top-left-radius:0}
+.wa-bubble-wa.me{align-self:flex-end;background:#005c4b;color:#e9edef;border-top-right-radius:0}
+.wa-bubble-wa .time{font-size:10px;color:#8696a0;float:right;margin-left:8px;margin-top:4px;display:flex;align-items:center;gap:2px}
+.wa-bubble-wa.me .time{color:#53bdeb}
+.wa-bubble-wa .ticks{font-size:12px;color:#53bdeb}
+.wa-bubble-wa.status{max-width:90%;background:#202c33;border-left:4px solid #facc15;display:flex;gap:8px;align-items:center}
+.wa-input-area{height:62px;min-height:62px;background:#202c33;padding:6px 8px;display:flex;align-items:flex-end;gap:6px;flex-shrink:0}
+.wa-input-box{flex:1;background:#2a3942;border-radius:22px;padding:8px 12px;display:flex;align-items:center;gap:8px;min-height:42px}
+.wa-input-box input{flex:1;background:transparent;border:none;color:#e9edef;outline:none;font-size:15px}
+.wa-input-box input::placeholder{color:#8696a0}
+.wa-input-box .emoji{font-size:22px;color:#8696a0}
+.wa-mic-wa{width:44px;height:44px;border-radius:50%;background:#00a884;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0}
+.wa-rooms{padding:8px;background:#111b21;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #222}
+.wa-rooms::-webkit-scrollbar{display:none}
+.wa-room{padding:8px 12px;border-radius:20px;background:#202c33;color:#8696a0;font-size:12px;white-space:nowrap;cursor:pointer;border:1px solid #222;flex-shrink:0}
+.wa-room.active{background:#00a884;color:#fff;border-color:#00a884;font-weight:600}
+.bottom-nav{height:66px;min-height:66px;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;align-items:center;padding:6px 4px 10px;flex-shrink:0;max-width:480px;width:100%;margin:0 auto;position:sticky;bottom:0;z-index:30}
+.btab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px;border:none;background:transparent;color:#555;font-size:9px;font-weight:600;cursor:pointer;min-width:0}
+.btab .ico{font-size:20px}
+.btab.active{color:#fff}
+.btab.premium{color:#facc15}
+
+.campaign-room-banner{position:sticky;top:0;z-index:8;background:linear-gradient(135deg,#facc15,#fbbf24);color:#000;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-radius:0 0 12px 12px;margin:0 8px 8px 8px;box-shadow:0 4px 12px rgba(250,204,21,0.3)}
+.campaign-room-btn{position:fixed;bottom:80px;right:16px;max-width:480px;z-index:90;background:linear-gradient(135deg,#facc15,#fb923c);color:#000;border:none;padding:13px 20px;border-radius:999px;font-weight:800;font-size:14px;box-shadow:0 6px 20px rgba(250,204,21,0.5);cursor:pointer;display:flex;align-items:center;gap:8px}
+.campaign-modal{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.campaign-modal.active{display:flex}
+.campaign-form{width:100%;max-width:400px;background:#1a1a24;border:1px solid #333;border-radius:20px;padding:18px;margin-top:20px;margin-bottom:80px;position:relative}
+.pkg-opt{border:1.5px solid #2a2a36;transition:all 0.2s}
+.pkg-opt.active{border-color:#facc15;background:rgba(250,204,21,0.08)}
+
+</style>
+</head>
+<body>
+<header><div style="display:flex;align-items:center;gap:10px"><div onclick="showTab('discover')" style="cursor:pointer;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800">←</div><div class="logo"><div class="logo-icon">LC</div> Love Connect</div></div><div class="online-pill">● Lagos • 1.2k online</div></header>
+
+<!-- DISCOVER TINDER STYLE -->
+<div class="page active" id="p-discover">
+<div class="filters-tinder"><span class="active">For you</span><span>Double Date</span><span>Astrology</span><span>Music</span><span>18-25</span><span>✓ Verified</span><span>Online</span><span>Near me</span></div>
+<div class="tinder-stack" id="tinderStack">
+<!-- Card 1 - Trish style from screenshot -->
+<div class="tinder-card" id="t1" style="z-index:4;display:block"><div class="tinder-top-dots"><span class="active"></span><span></span><span></span><span></span></div><img src="https://i.pravatar.cc/800?img=23" alt="Amara"><div class="tinder-gradient"></div><div class="tinder-info"><span class="tinder-badge">Nearby</span><div class="tinder-name">Amara 23 <b>✓</b></div><div class="tinder-meta">🏠 Lives in Lekki • Student</div><div class="tinder-meta">📍 2km away • Lekki Phase 1</div></div><div class="tinder-up">↑</div></div>
+<!-- Card 2 -->
+<div class="tinder-card" id="t2" style="z-index:3;display:none"><img src="https://i.pravatar.cc/800?img=12"><div class="tinder-gradient"></div><div class="tinder-info"><span class="tinder-badge">Nearby</span><div class="tinder-name">Tunde 26 <b>✓</b></div><div class="tinder-meta">🏠 Lives in Yaba • Developer</div><div class="tinder-meta">📍 4 miles away</div></div></div>
+<!-- Card 3 -->
+<div class="tinder-card" id="t3" style="z-index:2;display:none"><img src="https://i.pravatar.cc/800?img=26"><div class="tinder-gradient"></div><div class="tinder-info"><span class="tinder-badge">Nearby</span><div class="tinder-name">Blessing 22</div><div class="tinder-meta">🏠 Lives in Eti-Osa • Model</div><div class="tinder-meta">📍 4 miles away</div></div></div>
+<!-- Card 4 -->
+<div class="tinder-card" id="t4" style="z-index:1;display:none"><img src="https://i.pravatar.cc/800?img=32"><div class="tinder-gradient"></div><div class="tinder-info"><span class="tinder-badge">Verified</span><div class="tinder-name">Chioma 24 <b>✓</b></div><div class="tinder-meta">🏠 Lives in Ikeja • Designer</div><div class="tinder-meta">📍 1 mile away</div></div></div>
+</div>
+<div class="tinder-actions"><button class="t-btn rewind" onclick="rewind()">↩️</button><button class="t-btn nope" onclick="swipeTinder('left')">✕</button><button class="t-btn star" onclick="superLikeTinder()">⭐</button><button class="t-btn like" id="likeBtn" onclick="swipeTinder('right')">❤️</button><button class="t-btn boost" onclick="boostTinder()">⚡</button></div>
+</div>
+
+<!-- MOVEMENT TIKTOK 9:16 STYLE -->
+<div class="page" id="p-moments">
+<div class="tiktok-container" id="tiktokContainer">
+<div class="tiktok-top"><span class="active">For you</span><span>Following</span><span>Lagos</span><span>Verified</span></div>
+<div class="tiktok-campaign"><div><b>📢 Campaign Room</b><div style="font-size:11px">Boost your video to 1.2k users</div></div><button onclick="alert('Boost ₦10k 7 days / ₦25k 30 days')">Boost ₦10k</button></div>
+<!-- TikTok Video 1 - 9:16 -->
+<div class="tiktok-item" style="margin-top:50px"><img src="https://i.pravatar.cc/800?img=23" style="object-position:top"><div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%)"></div><div class="tiktok-right"><div class="tiktok-action"><div class="icon">❤️</div><div class="count">2.3k</div></div><div class="tiktok-action"><div class="icon">💬</div><div class="count">89</div></div><div class="tiktok-action"><div class="icon">🔖</div><div class="count">120</div></div><div class="tiktok-action"><div class="icon">↗️</div><div class="count">Share</div></div><div class="tiktok-action"><div class="icon" style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#ff2e7f,#a855f7)">AM</div></div></div><div class="tiktok-bottom"><div class="tiktok-user">@amara_lekki • 23 • Lekki ✓</div><div class="tiktok-desc">My new dance 💃 #Lagos #Movement #LoveConnect</div><div class="tiktok-music">🎵 Original sound - Afrobeat • Lekki</div></div></div>
+<!-- TikTok Video 2 -->
+<div class="tiktok-item"><img src="https://i.pravatar.cc/800?img=12"><div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%)"></div><div class="tiktok-right"><div class="tiktok-action"><div class="icon">❤️</div><div class="count">1.1k</div></div><div class="tiktok-action"><div class="icon">💬</div><div class="count">45</div></div><div class="tiktok-action"><div class="icon">↗️</div><div class="count">Share</div></div></div><div class="tiktok-bottom"><div class="tiktok-user">@tunde_yaba • 26 • Yaba</div><div class="tiktok-desc">Gym vibes 🏋️ Who wants to train with me?</div><div class="tiktok-music">🎵 Gym motivation</div></div></div>
+<!-- TikTok Video 3 -->
+<div class="tiktok-item"><img src="https://i.pravatar.cc/800?img=26"><div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%)"></div><div class="tiktok-right"><div class="tiktok-action"><div class="icon">❤️</div><div class="count">3.4k</div></div><div class="tiktok-action"><div class="icon">💬</div><div class="count">120</div></div><div class="tiktok-action"><div class="icon">↗️</div></div></div><div class="tiktok-bottom"><div class="tiktok-user">@blessing22 • 22 • Eti-Osa ✓</div><div class="tiktok-desc">A day in my life ✨ #LagosGirl</div><div class="tiktok-music">🎵 Trending - Lagos</div></div></div>
+<!-- TikTok Campaign Ad -->
+<div class="tiktok-item" style="border:2px solid #facc15"><img src="https://i.pravatar.cc/800?img=45"><div style="position:absolute;top:12px;left:12px;background:#facc15;color:#000;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;z-index:4">SPONSORED • Campaign Room</div><div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%)"></div><div class="tiktok-right"><div class="tiktok-action"><div class="icon" style="background:#facc15;color:#000">📢</div><div class="count">5.2k</div></div></div><div class="tiktok-bottom"><div class="tiktok-user">@david_business • Campaign Boosted 🔥</div><div class="tiktok-desc">My business don blow because of Love Connect campaign! DM me 📢 #Ad</div><div class="tiktok-music">🎵 Sponsored</div></div></div>
+</div>
+</div>
+
+<!-- CHATS WHATSAPP STYLE - Mum Anabela style -->
+<div class="page" id="p-chats">
+<div class="wa-rooms"><div class="wa-room active">Lagos Singles 245</div><div class="wa-room">Abuja 89</div><div class="wa-room">Student Vibes 156</div><div class="wa-room" style="background:#facc15;color:#000;font-weight:700">Campaign Room 45</div><div class="wa-room">VIP Lounge</div></div>
+<div class="wa-page">
+<div class="wa-header"><div class="back">←</div><div class="avatar"><img src="https://i.pravatar.cc/100?img=12"></div><div class="name"><b>Small Tunde Bread</b></div><div class="icons"><span>📷</span><span>📞</span><span>⋮</span></div></div>
+<div class="wa-chat-area" id="waChatArea">
+<div class="wa-bubble-wa other">So when <span class="time">1:59 pm</span></div>
+<div class="wa-bubble-wa me">Anytime <span class="time">2:00 pm <span class="ticks">✓✓</span></span></div>
+<div class="wa-bubble-wa other">Ok <span class="time">2:03 pm</span></div>
+<div class="wa-date">19 July 2026</div>
+<div class="wa-secure">Your business is now using a secure service from Meta to manage this chat. Tap to learn more.</div>
+<div class="wa-date">12 August 2026</div>
+<div class="wa-bubble-wa other status"><div><div style="font-weight:700;font-size:13px">You • Status</div><div style="font-size:12px;color:#8696a0">🖼️ Note it on joter 29 is the code</div><div style="font-size:14px;margin-top:4px">Hello</div></div><div style="margin-left:auto"><div style="width:48px;height:48px;background:#222;border-radius:6px"></div></div><span class="time" style="position:absolute;bottom:4px;right:8px">10:15 am</span></div>
+<div class="wa-bubble-wa other">Longest timd <span class="time">10:15 am</span></div>
+<div class="wa-bubble-wa me">No see my dear <span class="time">1:58 pm <span class="ticks">✓✓</span></span></div>
+<div class="wa-bubble-wa other">How ur side <span class="time">1:59 pm</span></div>
+<div class="wa-bubble-wa me">Its fine <span class="time">2:03 pm <span class="ticks">✓✓</span></span></div>
+<div class="wa-bubble-wa me">My birthday is on 29 <span class="time">2:03 pm <span class="ticks">✓✓</span></span></div>
+<div class="wa-bubble-wa other">Happy birthday in advance <span class="time">2:04 pm</span></div>
+<div class="wa-bubble-wa me">Thank you <span class="time">2:05 pm <span class="ticks">✓✓</span></span></div>
+<div class="wa-bubble-wa other">U wlc <span class="time">2:05 pm</span></div>
+<div class="wa-bubble-wa me">Where are you <span class="time">2:06 pm <span class="ticks">✓✓</span></span></div>
+</div>
+<div class="wa-input-area"><div class="wa-input-box"><input id="waInput" placeholder="Message" oninput="handleWaTyping(this)" onkeydown="if(event.key==='Enter') sendWa()"><span class="emoji">😊</span><span class="emoji">📎</span><span class="emoji">📷</span></div><div class="wa-mic-wa" id="waMic" onclick="handleWaAction()">🎤</div></div>
+</div>
+</div>
+
+<div class="page" id="p-likes"><div style="padding:16px;text-align:center"><h3>❤️ Likes & Campaign</h3><p style="color:#888;font-size:12px;margin-top:8px">Your movement video: 1.2k views, 34 likes</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px"><div style="height:160px;background:linear-gradient(135deg,#ff2e7f,#a855f7);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column"><div style="font-weight:700">Blessing 21</div><div style="font-size:11px">Liked your movement</div></div><div style="height:160px;background:#222;border-radius:12px;filter:blur(8px);display:flex;align-items:center;justify-content:center">🔒</div></div></div></div>
+
+<div class="page" id="p-account" style="overflow-y:auto"><div style="padding:12px"><h3 style="font-size:16px;font-weight:800">🛡️ Account & Verification — Security</h3><div style="margin-top:12px;background:#111;border:1px solid #222;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:13px">Email Verification</b><div style="font-size:11px;color:#888">verified</div></div><span style="background:rgba(34,197,94,0.15);color:#22c55e;padding:4px 10px;border-radius:999px;font-size:11px">✓ Done</span></div><div style="margin-top:10px;background:#111;border:1px solid #222;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:13px">Phone OTP — Termii / SMSLive</b><div style="font-size:11px;color:#888">Demo: 482917 • Real SMS for Nigeria</div></div><button style="background:#fff;color:#000;border:none;padding:6px 12px;border-radius:999px;font-weight:700;font-size:11px">Verify</button></div><div style="margin-top:10px;background:#111;border:1px solid #222;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:13px">Photo Verification — Hand on cheek</b><div style="font-size:11px;color:#888">Face match >90% • No catfish</div></div><button style="background:#fff;color:#000;border:none;padding:6px 12px;border-radius:999px;font-weight:700;font-size:11px">Start</button></div><div style="margin-top:10px;background:#111;border:1px solid #222;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:13px">Movement Video 30s — 9:16 TikTok</b><div style="font-size:11px;color:#888">Your 9:16 movement video • Encrypted</div></div><button style="background:#facc15;color:#000;border:none;padding:6px 12px;border-radius:999px;font-weight:700;font-size:11px">Upload</button></div><div style="margin-top:12px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:12px"><div style="font-size:13px;font-weight:700;color:#22c55e">🛡️ Security Score: 85% — Good</div><div style="font-size:11px;color:#888;margin-top:4px">2FA • E2E encryption • bcrypt • Paystack verified • Block screenshots • Campaign rooms secure</div></div></div></div>
+
+<div class="page" id="p-premium"><div style="padding:16px"><h2 style="text-align:center;font-size:20px;font-weight:800">Unlock Premium 👑</h2><div style="background:linear-gradient(135deg,#facc15,#fb923c);border-radius:16px;padding:16px;margin-top:14px;color:#000"><div style="font-weight:800">Monthly + Love Connect Premium</div><div style="font-size:11px">Unlimited swipe • 9:16 Movement video • Private chat • Campaign boost</div><div style="font-size:20px;font-weight:900;margin-top:6px">₦2k</div><button style="width:100%;margin-top:12px;background:#000;color:#fff;border:none;padding:12px;border-radius:999px;font-weight:800">Pay with Paystack — Love Connect Premium</button></div><div style="margin-top:12px;padding:12px;background:rgba(34,197,94,0.08);border-radius:12px"><div style="font-size:11px;color:#22c55e">🔒 Paystack secure • Campaign: 7d ₦10k / 30d ₦25k / 90d ₦60k</div></div></div></div>
+
+<div class="bottom-nav">
+<button class="btab active" id="t-discover" onclick="showTab('discover')"><span class="ico">🔥</span><span>Discover</span></button>
+<button class="btab" id="t-moments" onclick="showTab('moments')"><span class="ico">🎬</span><span>Movement</span></button>
+<button class="btab" id="t-chats" onclick="showTab('chats')"><span class="ico">💬</span><span>Chats</span></button>
+<button class="btab" id="t-likes" onclick="showTab('likes')"><span class="ico">❤️</span><span>Likes</span></button>
+<button class="btab" id="t-account" onclick="showTab('account')"><span class="ico">🛡️</span><span>Verify</span></button>
+<button class="btab premium" id="t-premium" onclick="showTab('premium')"><span class="ico">👑</span><span>Premium</span></button>
+</div>
+
+<script>
+let curT=1,totalT=4;
+function showTab(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.btab').forEach(t=>t.classList.remove('active'));document.getElementById('p-'+n).classList.add('active');document.getElementById('t-'+n).classList.add('active');}
+function swipeTinder(dir){
+ const card=document.getElementById('t'+curT); if(!card) return;
+ card.style.transition='all 0.35s ease';
+ if(dir==='right'){card.style.transform='translateX(500px) rotate(15deg)';card.style.opacity='0';document.getElementById('likeBtn').classList.add('active');setTimeout(()=>document.getElementById('likeBtn').classList.remove('active'),300);}
+ else{card.style.transform='translateX(-500px) rotate(-15deg)';card.style.opacity='0';}
+ setTimeout(()=>{card.style.display='none';curT++;if(curT<=totalT){const next=document.getElementById('t'+curT);if(next){next.style.display='block';next.style.opacity='0';next.style.transform='scale(0.95)';setTimeout(()=>{next.style.transition='all 0.3s';next.style.opacity='1';next.style.transform='scale(1)';},20);}}else{curT=1;document.querySelectorAll('.tinder-card').forEach(c=>{c.style.display='none';c.style.opacity='1';c.style.transform='none';});document.getElementById('t1').style.display='block';}},320);
+}
+function superLikeTinder(){swipeTinder('right');}
+function boostTinder(){alert('⚡ Boost! Your profile + movement video shown to 10x more people in Lagos for 30 mins — Premium ₦500');}
+function rewind(){if(curT>1){curT--;const prev=document.getElementById('t'+curT);if(prev){prev.style.display='block';prev.style.opacity='1';prev.style.transform='none';}}}
+let startX=0,isDrag=false,curEl=null;
+document.addEventListener('touchstart',e=>{const c=document.getElementById('t'+curT);if(!c)return;if(e.target.closest('.btab')||e.target.closest('.t-btn')||e.target.closest('.wa-page')||e.target.closest('.filters-tinder'))return;if(!e.target.closest('.tinder-stack'))return;startX=e.touches[0].clientX;isDrag=true;curEl=c;curEl.style.transition='none';},{passive:true});
+document.addEventListener('touchmove',e=>{if(!isDrag||!curEl)return;const dx=e.touches[0].clientX-startX;if(Math.abs(dx)<10)return;curEl.style.transform=`translateX(${dx}px) rotate(${dx*0.05}deg)`;},{passive:false});
+document.addEventListener('touchend',e=>{if(!isDrag||!curEl)return;isDrag=false;curEl.style.transition='all 0.3s';const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>90)swipeTinder(dx>0?'right':'left');else{curEl.style.transform='translateX(0) rotate(0)';}curEl=null;});
+function handleWaTyping(el){const mic=document.getElementById('waMic');if(el.value.trim().length>0){mic.textContent='➤';mic.style.background='#fff';mic.style.color='#111b21';}else{mic.textContent='🎤';mic.style.background='#00a884';mic.style.color='#fff';}}
+function handleWaAction(){const input=document.getElementById('waInput');if(input.value.trim().length>0) sendWa();else alert('🎤 Voice note — hold to record');}
+function sendWa(){const input=document.getElementById('waInput');const text=input.value.trim();if(!text)return;const area=document.getElementById('waChatArea');const div=document.createElement('div');div.className='wa-bubble-wa me';div.innerHTML=text+' <span class="time">2:06 pm <span class="ticks">✓✓</span></span>';area.appendChild(div);input.value='';handleWaTyping(input);area.scrollTop=area.scrollHeight;setTimeout(()=>{const replies=["No see my dear","How ur side","Happy birthday in advance","U wlc"];const r=replies[Math.floor(Math.random()*replies.length)];const d=document.createElement('div');d.className='wa-bubble-wa other';d.innerHTML=r+' <span class="time">2:07 pm</span>';area.appendChild(d);area.scrollTop=area.scrollHeight;},1000);}
+</script>
+
+<!-- CAMPAIGN ROOM BANNER FOR MOVEMENT TAB - As per screenshot -->
+<div class="campaign-room-banner" id="campaignRoomBanner" style="display:none">
+<div>
+<div style="font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px">📢 Campaign Room</div>
+<div style="font-size:11px;opacity:0.8">Boost your video to 1.2k users</div>
+</div>
+<button onclick="openCampaignForm()" style="background:#000;color:#fff;border:none;padding:8px 16px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer">Boost ₦10k</button>
+</div>
+
+<button class="campaign-room-btn" id="campaignRoomBtn" onclick="openCampaignForm()" style="display:none">📢 Create Campaign</button>
+
+<div class="campaign-modal" id="campaignModal">
+<div class="campaign-form">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div>
+<h3 style="font-size:16px;font-weight:800;display:flex;align-items:center;gap:6px">📢 Create Campaign</h3>
+<p style="font-size:11px;color:#888;margin:0">Fill details - shows in Moments feed</p>
+</div>
+<button onclick="closeCampaignForm()" style="width:32px;height:32px;border-radius:50%;background:#222;border:1px solid #333;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+</div>
+
+<div id="premiumCheckMsg" style="margin-bottom:12px"></div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<input id="campName" placeholder="Campaign Name e.g., My Shawarma Business" style="background:#222;border:1px solid #333;color:#fff;padding:12px;border-radius:12px;font-size:13px;outline:none">
+<select id="campType" style="background:#222;border:1px solid #333;color:#fff;padding:12px;border-radius:12px;font-size:13px;outline:none">
+<option>Food & Restaurant</option>
+<option>Fashion & Beauty</option>
+<option>Music & Entertainment</option>
+<option>Business & Services</option>
+<option>Education & Student Vibes</option>
+<option>Other</option>
+</select>
+<textarea id="campDesc" placeholder="Description e.g., Best shawarma for Lekki, DM me!" style="background:#222;border:1px solid #333;color:#fff;padding:12px;border-radius:12px;font-size:13px;height:70px;resize:none;outline:none"></textarea>
+<input id="campContact" placeholder="WhatsApp e.g., 08012345678" style="background:#222;border:1px solid #333;color:#fff;padding:12px;border-radius:12px;font-size:13px;outline:none">
+<div>
+<input type="file" id="campFile" accept="image/*,video/*" style="background:#222;border:1px solid #333;color:#fff;padding:10px;border-radius:10px;font-size:12px;width:100%">
+<p style="font-size:10px;color:#666;margin-top:4px">Upload Image / 9:16 Video for Movement feed</p>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px">
+<div onclick="selectPkg(this,7,10000)" class="pkg-opt active" data-days="7" style="background:#222;border-radius:12px;padding:12px;text-align:center;cursor:pointer">
+<div style="font-weight:700;font-size:12px">7 Days</div>
+<div style="color:#facc15;font-weight:800;font-size:14px;margin-top:2px">₦10k</div>
+<div id="pkg7discount" style="font-size:9px;color:#22c55e;margin-top:2px;display:none">Premium: ₦8k (20% OFF)</div>
+</div>
+<div onclick="selectPkg(this,30,25000)" class="pkg-opt" data-days="30" style="background:#222;border-radius:12px;padding:12px;text-align:center;cursor:pointer">
+<div style="font-weight:700;font-size:12px">30 Days</div>
+<div style="color:#facc15;font-weight:800;font-size:14px;margin-top:2px">₦25k</div>
+<div id="pkg30discount" style="font-size:9px;color:#22c55e;margin-top:2px;display:none">Premium: ₦20k</div>
+</div>
+<div onclick="selectPkg(this,90,60000)" class="pkg-opt" data-days="90" style="background:#222;border-radius:12px;padding:12px;text-align:center;cursor:pointer">
+<div style="font-weight:700;font-size:12px">90 Days</div>
+<div style="color:#facc15;font-weight:800;font-size:14px;margin-top:2px">₦60k</div>
+<div id="pkg90discount" style="font-size:9px;color:#22c55e;margin-top:2px;display:none">Premium: ₦48k</div>
+</div>
+<div onclick="selectPkg(this,365,180000)" class="pkg-opt" data-days="365" style="background:#222;border-radius:12px;padding:12px;text-align:center;cursor:pointer">
+<div style="font-weight:700;font-size:12px">1 Year</div>
+<div style="color:#facc15;font-weight:800;font-size:14px;margin-top:2px">₦180k</div>
+<div id="pkg365discount" style="font-size:9px;color:#22c55e;margin-top:2px;display:none">Premium: ₦144k</div>
+</div>
+</div>
+
+<div style="display:flex;gap:10px;margin-top:16px">
+<button onclick="closeCampaignForm()" style="flex:1;background:#222;border:1px solid #333;color:#fff;padding:13px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer">Cancel</button>
+<button onclick="submitCampaign()" style="flex:2;background:linear-gradient(135deg,#facc15,#fb923c);color:#000;border:none;padding:13px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer">Pay — Create Campaign</button>
+</div>
+
+<div style="display:flex;gap:8px;margin-top:10px">
+<button onclick="showTab('discover')" style="flex:1;background:transparent;border:1px solid #333;color:#888;padding:10px;border-radius:999px;font-size:11px;cursor:pointer">← Back to Discover</button>
+<button onclick="showTab('premium')" style="flex:1;background:transparent;border:1px solid #333;color:#888;padding:10px;border-radius:999px;font-size:11px;cursor:pointer">Go Premium 👑</button>
+</div>
+
+<p style="font-size:10px;color:#666;text-align:center;margin-top:10px">🔒 Paystack verified • Campaign + Premium work together • 20% OFF for Premium users • Shows in Movement feed</p>
+</div>
+</div>
+</div>
+
+
+<script>
+// CAMPAIGN AD RUN FROM MOVEMENT TAB - Working Together with Premium
+let isPremium = localStorage.getItem('loveConnect_isPremium') === 'true';
+let premiumExpires = localStorage.getItem('loveConnect_premiumExpires');
+let campaigns = JSON.parse(localStorage.getItem('loveConnect_campaigns') || '[]');
+let selDays=7, selPrice=10000, selOriginalPrice=10000;
+
+function checkPremium(){
+isPremium = localStorage.getItem('loveConnect_isPremium') === 'true';
+premiumExpires = localStorage.getItem('loveConnect_premiumExpires');
+if(premiumExpires){
+if(new Date() > new Date(premiumExpires)){
+isPremium=false;
+localStorage.setItem('loveConnect_isPremium','false');
+}
+}
+return isPremium;
+}
+
+function updateCampaignBanner(){
+const isMovement = document.getElementById('p-moments') && document.getElementById('p-moments').classList.contains('active');
+const banner=document.getElementById('campaignRoomBanner');
+const btn=document.getElementById('campaignRoomBtn');
+if(banner) banner.style.display=isMovement?'flex':'none';
+if(btn) btn.style.display=isMovement?'flex':'none';
+}
+
+function openCampaignForm(){
+checkPremium();
+const modal=document.getElementById('campaignModal');
+const msg=document.getElementById('premiumCheckMsg');
+if(isPremium){
+msg.innerHTML='<div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:10px"><div style="font-size:12px;font-weight:700;color:#22c55e">✅ Premium Active - 20% OFF Campaign!</div><div style="font-size:11px;color:#888">Premium + Campaign work together - 3x more views, gold border, priority likes</div></div>';
+document.querySelectorAll('[id^=pkg][id$=discount]').forEach(el=>el.style.display='block');
+}else{
+msg.innerHTML='<div style="background:rgba(250,204,21,0.1);border:1px solid rgba(250,204,21,0.2);border-radius:10px;padding:10px"><div style="font-size:12px;font-weight:700;color:#facc15">💡 Tip: Premium + Campaign Work Together!</div><div style="font-size:11px;color:#888">Unlock Premium ₦2k first for 20% OFF campaign + 3x boost! Free users pay full price, Premium users save!</div></div>';
+document.querySelectorAll('[id^=pkg][id$=discount]').forEach(el=>el.style.display='none');
+}
+if(modal) modal.classList.add('active');
+}
+
+function closeCampaignForm(){
+const modal=document.getElementById('campaignModal');
+if(modal) modal.classList.remove('active');
+}
+
+function selectPkg(el,days,price){
+document.querySelectorAll('.pkg-opt').forEach(o=>{o.classList.remove('active');o.style.borderColor='#2a2a36';});
+el.classList.add('active');
+el.style.borderColor='#facc15';
+selDays=days;
+selOriginalPrice=price;
+checkPremium();
+if(isPremium){
+selPrice=Math.floor(price*0.8);
+}else{
+selPrice=price;
+}
+}
+
+function submitCampaign(){
+const name=document.getElementById('campName').value.trim();
+const desc=document.getElementById('campDesc').value.trim();
+const contact=document.getElementById('campContact').value.trim();
+if(!name){alert('Enter Campaign Name - e.g., My Shawarma Business');return;}
+if(!desc){alert('Enter Description');return;}
+if(!contact){alert('Enter WhatsApp Contact - e.g., 08012345678');return;}
+const fileInput=document.getElementById('campFile');
+let fileName=fileInput.files[0]?fileInput.files[0].name:'No file - text campaign';
+const expires=new Date();
+expires.setDate(expires.getDate()+selDays);
+const campaign={
+id:Date.now(),
+name:name,
+type:document.getElementById('campType').value,
+desc:desc,
+contact:contact,
+days:selDays,
+price:selPrice,
+originalPrice:selOriginalPrice,
+fileName:fileName,
+isPremium:isPremium,
+created:new Date().toISOString(),
+expires:expires.toISOString()
+};
+campaigns.push(campaign);
+localStorage.setItem('loveConnect_campaigns', JSON.stringify(campaigns));
+const kobo=selPrice*100;
+let discountMsg=isPremium?' (20% OFF Premium discount! Original ₦'+selOriginalPrice.toLocaleString()+')':' (Unlock Premium for 20% OFF next time!)';
+alert('✅ Campaign Ad Running from Movement Tab!\n\n📢 '+name+'\n📝 '+desc+'\n📱 '+contact+'\n📅 '+selDays+' Days - ₦'+selPrice.toLocaleString()+discountMsg+'\n📁 '+fileName+'\n\nWorking Together: '+(isPremium?'✅ Premium Active + Campaign Active - 3x boost, gold border, priority!':'⚠️ Free user - Campaign active but no Premium boost. Get Premium for 3x boost!')+'\n\nYour ad go show for Movement feed with SPONSORED tag to 1.2k users!\n\nPaystack: ₦'+selPrice+' ('+kobo+' kobo) - Verified!');
+closeCampaignForm();
+// Add campaign to Movement feed
+const container=document.getElementById('tiktokContainer') || document.querySelector('.tiktok-container');
+if(container){
+const div=document.createElement('div');
+div.style.cssText='position:relative;width:100%;height:100%;min-height:400px;background:linear-gradient(135deg,#1c1c24,#2a2a36);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px;border:2px solid #facc15;box-sizing:border-box';
+div.innerHTML='<div style="position:absolute;top:12px;left:12px;background:linear-gradient(135deg,#facc15,#fb923c);color:#000;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:800;z-index:4">🔥 NEW • '+(isPremium?'PREMIUM + ':'')+'CAMPAIGN • '+selDays+' Days</div><div style="font-size:48px">📢</div><div style="font-weight:800;font-size:18px;margin-top:12px">'+name+'</div><div style="font-size:13px;color:#ccc;margin-top:6px;max-width:300px">'+desc+'</div><div style="font-size:11px;color:#facc15;margin-top:10px;background:rgba(0,0,0,0.3);padding:6px 12px;border-radius:999px">Contact: '+contact+' • '+selDays+' Days • ₦'+selPrice.toLocaleString()+' • '+(isPremium?'Premium 20% OFF':'')+'</div>';
+container.prepend(div);
+}
+document.getElementById('campName').value='';
+document.getElementById('campDesc').value='';
+document.getElementById('campContact').value='';
+document.getElementById('campFile').value='';
+}
+
+// Show/hide campaign banner based on tab
+setInterval(updateCampaignBanner, 500);
+updateCampaignBanner();
+
+// Simple back button for chat header
+setTimeout(()=>{
+const waHeader=document.querySelector('.wa-header .back');
+if(waHeader) waHeader.onclick=()=>showTab('discover');
+}, 1000);
+</script>
+
+</body>
+</html>
